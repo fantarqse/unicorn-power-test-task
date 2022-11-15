@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { CheckHandler } from '../handlers/check.handler';
 import { InfoHandler } from '../handlers/info.handler';
 import { LogoutHandler } from '../handlers/logout.handler';
-import { SigninHandler } from '../handlers/signin.handler';
-import { SignupHandler } from '../handlers/signup.handler';
+import { LoginHandler } from '../handlers/login.handler';
+import { RegistrationHandler } from '../handlers/registration.handler';
 
 export const userRouter: Router = Router()
 
@@ -24,10 +24,10 @@ userRouter.get(
 
 userRouter.post(
   '/signin',
-  SigninHandler.handle,
+  LoginHandler.handle,
 )
 
 userRouter.post(
   '/signup',
-  SignupHandler.handle,
+  RegistrationHandler.handle,
 )
