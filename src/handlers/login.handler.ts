@@ -1,3 +1,3 @@
-export class SigninHandler {
+export class LoginHandler {
   public static handle() {}
 }
