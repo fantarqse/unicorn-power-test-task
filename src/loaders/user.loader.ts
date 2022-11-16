@@ -1,5 +1,5 @@
-import { DbHelper } from '../helpers/db.helper';
-import { UserModel } from '../models/entities/user.model';
+import { DbHelper } from '../helpers/db.helper'
+import { UserModel } from '../models/entities/user.model'
 
 export class UserLoader {
   /**

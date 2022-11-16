@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { UserIDTypeEnum } from '../../enums/user-id-type.enum';
+import { Column, Entity, PrimaryColumn } from 'typeorm'
+import { UserIDTypeEnum } from '../../enums/user-id-type.enum'
 
 @Entity({ name: UserModel.tableName })
 export class UserModel {

@@ -1,6 +1,6 @@
 import * as uuid from 'uuid'
-import { NOTHING } from '../consts/nothing.const';
-import { NothingType } from '../types/nothing.type';
+import { NOTHING } from '../consts/nothing.const'
+import { NothingType } from '../types/nothing.type'
 
 export class DataHelper {
   /**

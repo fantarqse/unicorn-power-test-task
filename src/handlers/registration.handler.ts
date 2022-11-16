@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
-import { HttpStatusEnum } from '../enums/http-status.enum';
-import { DataHelper } from '../helpers/data.helper';
-import { PasswordHelper } from '../helpers/password.helper';
-import { UserIDTypeHelper } from '../helpers/user-id-type.helper';
-import { UserLoader } from '../loaders/user.loader';
-import { UserModel } from '../models/entities/user.model';
-import { ErrorModel } from '../models/error.model';
+import { Request, Response } from 'express'
+import { HttpStatusEnum } from '../enums/http-status.enum'
+import { DataHelper } from '../helpers/data.helper'
+import { PasswordHelper } from '../helpers/password.helper'
+import { UserIDTypeHelper } from '../helpers/user-id-type.helper'
+import { UserLoader } from '../loaders/user.loader'
+import { UserModel } from '../models/entities/user.model'
+import { ErrorModel } from '../models/error.model'
 
 export class RegistrationHandler {
   public static async handle(req: Request, res: Response) {

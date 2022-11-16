@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { HttpStatusEnum } from '../enums/http-status.enum';
-import {UserLoader} from '../loaders/user.loader';
+import { Request, Response } from 'express'
+import { HttpStatusEnum } from '../enums/http-status.enum'
+import {UserLoader} from '../loaders/user.loader'
 
 export class CheckHandler {
   public static async handle(req: Request, res: Response) {

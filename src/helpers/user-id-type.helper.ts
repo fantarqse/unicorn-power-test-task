@@ -1,5 +1,5 @@
-import { EMAIL_REGEXP } from '../consts/email-regexp.const';
-import { UserIDTypeEnum } from '../enums/user-id-type.enum';
+import { EMAIL_REGEXP } from '../consts/email-regexp.const'
+import { UserIDTypeEnum } from '../enums/user-id-type.enum'
 
 export class UserIDTypeHelper {
   /**

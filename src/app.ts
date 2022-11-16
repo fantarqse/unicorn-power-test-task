@@ -1,12 +1,12 @@
 require('dotenv').config()
 
-import 'reflect-metadata';
-import express from 'express';
-import config from 'config';
-import bodyParser from 'body-parser';
-import { DbHelper } from './helpers/db.helper';
-import { rootRouter } from './routers/root.router';
-import { NothingType } from './types/nothing.type';
+import 'reflect-metadata'
+import express from 'express'
+import config from 'config'
+import bodyParser from 'body-parser'
+import { DbHelper } from './helpers/db.helper'
+import { rootRouter } from './routers/root.router'
+import { NothingType } from './types/nothing.type'
 
 const port: string = config.get('port')
 const app = express()

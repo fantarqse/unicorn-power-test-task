@@ -1,7 +1,7 @@
-import config from 'config';
-import { DataSource } from 'typeorm';
-import { UserModel } from '../models/entities/user.model';
-import { ErrorModel } from '../models/error.model';
+import config from 'config'
+import { DataSource } from 'typeorm'
+import { UserModel } from '../models/entities/user.model'
+import { ErrorModel } from '../models/error.model'
 
 export class DbHelper {
   /**

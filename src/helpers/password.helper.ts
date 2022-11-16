@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { ErrorModel } from '../models/error.model';
+import { ErrorModel } from '../models/error.model'
 
 export class PasswordHelper {
   /**

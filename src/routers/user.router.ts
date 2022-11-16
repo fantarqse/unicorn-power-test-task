@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import { CheckHandler } from '../handlers/check.handler';
-import { InfoHandler } from '../handlers/info.handler';
-import { LogoutHandler } from '../handlers/logout.handler';
-import { LoginHandler } from '../handlers/login.handler';
-import { RegistrationHandler } from '../handlers/registration.handler';
+import { Router } from 'express'
+import { CheckHandler } from '../handlers/check.handler'
+import { InfoHandler } from '../handlers/info.handler'
+import { LogoutHandler } from '../handlers/logout.handler'
+import { LoginHandler } from '../handlers/login.handler'
+import { RegistrationHandler } from '../handlers/registration.handler'
 
 export const userRouter: Router = Router()
 

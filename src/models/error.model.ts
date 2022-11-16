@@ -1,5 +1,5 @@
-import { HttpStatusEnum } from '../enums/http-status.enum';
-import { MaybeType } from '../types/maybe.type';
+import { HttpStatusEnum } from '../enums/http-status.enum'
+import { MaybeType } from '../types/maybe.type'
 
 export class ErrorModel {
   /**
