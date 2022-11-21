@@ -1,7 +1,7 @@
 import config from 'config'
 import { DataSource } from 'typeorm'
+import { TokenModel } from '../models/entities/token.model'
 import { UserModel } from '../models/entities/user.model'
-import { ErrorModel } from '../models/error.model'
 
 export class DbHelper {
   /**
@@ -14,7 +14,7 @@ export class DbHelper {
    */
   public static getConnection(): DataSource {
     if (!DbHelper._connection) {
-      throw new ErrorModel({description: `DB's connection was not initialized`})
+      throw new Error(`DB's connection was not initialized`)
     }
 
     return DbHelper._connection
@@ -32,12 +32,11 @@ export class DbHelper {
       username: config.get('db.user'),
       password: config.get('db.password'),
       database: config.get('db.name'),
-      entities: [UserModel],
+      entities: [UserModel, TokenModel],
       synchronize: true,
     })
 
     await DbHelper._connection
       .initialize()
-      .catch((error) => console.log(error)) //TODO ??: Add QueryHelper
   }
 }

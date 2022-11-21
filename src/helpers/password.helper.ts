@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt'
-import { ErrorModel } from '../models/error.model'
 
 export class PasswordHelper {
   /**
@@ -9,7 +8,7 @@ export class PasswordHelper {
     try {
       return bcrypt.hash(password, 10)
     } catch (error) {
-      throw new ErrorModel({ error, description: `Hash operation failed: ${error.message}` })
+      throw new Error(`Hash operation failed: ${error.message}`)
     }
   }
 
@@ -20,7 +19,7 @@ export class PasswordHelper {
     try {
       return bcrypt.compare(userPassword, dbUserPassword)
     } catch (error) {
-      throw new ErrorModel({ error, description: `Verify operation failed: ${error.message}` })
+      throw new Error(`Verify operation failed: ${error.message}`)
     }
   }
 }
