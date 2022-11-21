@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { AUTHORIZATION } from '../consts/authorization.const'
 import { DbErrorEnum } from '../enums/db-error.enum'
 import { HttpStatusEnum } from '../enums/http-status.enum'
 import { DataHelper } from '../helpers/data.helper'
@@ -8,12 +9,14 @@ import { UserLoader } from '../loaders/user.loader'
 import { TokenModel } from '../models/entities/token.model'
 import { UserModel } from '../models/entities/user.model'
 import { ResponseModel } from '../models/response.model'
-import { OrErrorType } from '../types/or-error-model.type'
+import { OrErrorType } from '../types/or-error.type'
 
 export class RegistrationHandler {
-  public static async handle(req: Request, res: Response) {
+  public static async handle(req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
+    const uuid: string = DataHelper.createUUID()
+
     const user: OrErrorType<UserModel> = await UserLoader.saveUser(new UserModel({
-      id: DataHelper.createUUID(),
+      id: uuid,
       userID: req.body.id,
       userIDType: UserIDTypeHelper.check(req.body.id),
       password: await PasswordHelper.hash(req.body.password)
@@ -49,7 +52,7 @@ export class RegistrationHandler {
 
     return res
       .status(HttpStatusEnum.Created)
-      .setHeader('Authorization', `Bearer ${bearerToken}`)
+      .setHeader(AUTHORIZATION, `Bearer ${bearerToken}`)
       .send(new ResponseModel({ description: `User successfully created` }))
   }
 }

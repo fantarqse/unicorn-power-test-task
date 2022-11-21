@@ -36,7 +36,7 @@ export class TokenModel {
    * Expiration Time
    */
   @Column({
-    name: TokenModel.name,
+    name: TokenModel.expirationTime,
     type: 'timestamptz',
     nullable: false,
   })
