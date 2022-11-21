@@ -7,11 +7,6 @@ import { RegistrationHandler } from '../handlers/registration.handler'
 
 export const userRouter: Router = Router()
 
-userRouter.get(//TODO: Remove before prod;
-  '/check',
-  CheckHandler.handle,
-  )
-
 userRouter.get(
   '/info',
   InfoHandler.handle,
