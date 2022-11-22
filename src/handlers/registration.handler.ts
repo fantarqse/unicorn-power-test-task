@@ -14,10 +14,19 @@ import { AsyncVoidType } from '../types/async-void.type'
 
 export class RegistrationHandler {
   public static async handle(req: Request, res: Response): AsyncVoidType {
+    const userIDType = UserIDTypeHelper.check(req.body.id)
+
+    if (userIDType instanceof Error) {
+      res
+        .status(HttpStatusEnum.BadRequest)
+        .send(new ResponseModel({ description: userIDType.message }))
+      return
+    }
+
     const user: OrErrorType<UserModel> = await UserLoader.saveUser(new UserModel({
       id: DataHelper.createUUID(),
       userID: req.body.id,
-      userIDType: UserIDTypeHelper.check(req.body.id),
+      userIDType: userIDType,
       password: await PasswordHelper.hash(req.body.password)
     }))
       .catch<Error>(DataHelper.cast)
