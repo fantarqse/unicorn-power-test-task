@@ -3,6 +3,7 @@ require('dotenv').config()
 import 'reflect-metadata'
 import express from 'express'
 import config from 'config'
+import cors from 'cors'
 import bodyParser from 'body-parser'
 import { NOTHING } from './consts/nothing.const'
 import { DbHelper } from './helpers/db.helper'
@@ -12,6 +13,7 @@ import { NothingType } from './types/nothing.type'
 const port: string = config.get('port')
 const app = express()
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(rootRouter)
 
