@@ -3,6 +3,7 @@ import { DbHelper } from '../helpers/db.helper'
 import { TokenModel } from '../models/entities/token.model'
 import { UserModel } from '../models/entities/user.model'
 import { MaybeType } from '../types/maybe.type'
+import { UserClientType } from '../types/user-client.type'
 
 export class UserLoader {
   /**
@@ -15,7 +16,7 @@ export class UserLoader {
   }
 
   /**
-   * Saves a new token to DB
+   * Saves a new token to DB & refreshes an existing token
    */
   public static async saveToken(token: TokenModel): Promise<TokenModel> {
     return DbHelper.getConnection()
@@ -36,22 +37,61 @@ export class UserLoader {
   /**
    * Gets user from DB by token
    */
-  public static async getUserByToken(token: string) {
+  public static async getUserByToken(token: string): Promise<MaybeType<UserClientType>> {
+    const sql: string = `
+      SELECT
+        u.${UserModel.id},
+        u.${UserModel.userID} AS "userID",
+        u.${UserModel.userIDType} AS "userIDType"
+      FROM
+        public.${UserModel.tableName} u
+      JOIN
+        public.${TokenModel.tableName} t
+      ON 
+        t.${TokenModel.id} = u.${UserModel.id}
+      WHERE
+        t.${TokenModel.token} = $1
+    `
+
     return DbHelper.getConnection()
-      .getRepository<TokenModel>(TokenModel)
-      //.find({ relations: { user: true } })
+      .query(sql, new Array<any>(token))
+      .then((users: ReadonlyArray<UserClientType>): MaybeType<UserClientType> => users[0])
   }
 
   /**
    * Gets token from DB by ID
    */
-  public static async getToken(id: string) {
+  public static async getToken(id: string): Promise<MaybeType<TokenModel>> {
     return DbHelper.getConnection()
       .manager
       .findOneBy<TokenModel>(TokenModel, { id: id })
       .then<MaybeType<TokenModel>>(DataHelper.cast)
   }
 
-  public static async updateToken(token: string) {}
-  public static async removeToken(all: boolean, token?: string) {} // Not sure about 'token'
+  /**
+   * Removes token from DB
+   */
+  public static async removeToken(token: string, all: boolean) {
+    let sql: string
+    if (all) {
+      sql = `
+        DELETE FROM
+          public.${TokenModel.tableName} t
+      `
+      return DbHelper.getConnection()
+        .query(sql)
+        .then((tokens): number => tokens[1])
+
+    } else {
+      sql = `
+        DELETE FROM
+          public.${TokenModel.tableName} t
+        WHERE
+          t.${TokenModel.token} = $1
+      `
+      return DbHelper.getConnection()
+        .query(sql, new Array<any>(token))
+        .then((tokens): number => tokens[1])
+    }
+  }
 }
