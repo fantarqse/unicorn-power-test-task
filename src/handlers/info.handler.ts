@@ -10,7 +10,6 @@ import { OrErrorType } from '../types/or-error.type'
 
 export class InfoHandler {
   public static async handle(req: Request, res: Response): AsyncVoidType {
-    console.log('===INFO===')//TODO: remove before prod
     const bearerToken: MaybeType<string> = req.headers.authorization
 
     if (!bearerToken) {

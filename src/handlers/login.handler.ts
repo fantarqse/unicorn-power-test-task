@@ -3,8 +3,6 @@ import { AUTHORIZATION } from '../consts/authorization.const'
 import { HttpStatusEnum } from '../enums/http-status.enum'
 import { PasswordHelper } from '../helpers/password.helper'
 import { UserLoader } from '../loaders/user.loader'
-import { TokenModel } from '../models/entities/token.model'
-import { UserModel } from '../models/entities/user.model'
 import { ResponseModel } from '../models/response.model'
 import { UserWithTokenModel } from '../models/user-with-token.model'
 import { AsyncVoidType } from '../types/async-void.type'
@@ -13,7 +11,6 @@ import { MaybeType } from '../types/maybe.type'
 export class LoginHandler {
   public static async handle(req: Request, res: Response): AsyncVoidType {
     const user: MaybeType<UserWithTokenModel> = await UserLoader.getUserAndToken(req.body.id)
-    console.log(user)
 
     if (!user) {
       res

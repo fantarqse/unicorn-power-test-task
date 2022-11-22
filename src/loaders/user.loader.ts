@@ -1,4 +1,3 @@
-import { DataHelper } from '../helpers/data.helper'
 import { DbHelper } from '../helpers/db.helper'
 import { TokenModel } from '../models/entities/token.model'
 import { UserModel } from '../models/entities/user.model'
@@ -74,7 +73,7 @@ export class UserLoader {
   /**
    * Removes token from DB
    */
-  public static async removeToken(token: string, all: boolean) {
+  public static async removeToken(token: string, all: boolean): Promise<number> {
     let sql: string
     if (all) {
       sql = `

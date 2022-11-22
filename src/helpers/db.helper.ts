@@ -2,6 +2,7 @@ import config from 'config'
 import { DataSource } from 'typeorm'
 import { TokenModel } from '../models/entities/token.model'
 import { UserModel } from '../models/entities/user.model'
+import { AsyncVoidType } from '../types/async-void.type'
 
 export class DbHelper {
   /**
@@ -23,7 +24,7 @@ export class DbHelper {
   /**
    * Initialize connection
    */
-  public static async initialize(): Promise<void> {
+  public static async initialize(): AsyncVoidType {
     DbHelper._connection = new DataSource({
       type: 'postgres',
       dropSchema: config.get('db.dropSchema'),

@@ -43,7 +43,7 @@ export class TokenModel {
   public readonly expirationTime: Date
 
   public constructor(params: TokenModel) {
-    if (params) {
+    if (params) { // Need 'if' for correct ORM work
       this.token = params.token
       this.id = params.id
       this.expirationTime = params.expirationTime

@@ -60,9 +60,7 @@ export class RegistrationHandler {
         .send(new ResponseModel({ description: token.message }))
       return
     }
-    //TODO: Remove before push to production
-    console.log(user)
-    console.log(token)
+
     res
       .status(HttpStatusEnum.Created)
       .setHeader(AUTHORIZATION, `Bearer ${bearerToken}`)
