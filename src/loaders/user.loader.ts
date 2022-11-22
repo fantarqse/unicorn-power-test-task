@@ -2,6 +2,7 @@ import { DataHelper } from '../helpers/data.helper'
 import { DbHelper } from '../helpers/db.helper'
 import { TokenModel } from '../models/entities/token.model'
 import { UserModel } from '../models/entities/user.model'
+import { UserWithTokenModel } from '../models/user-with-token.model'
 import { MaybeType } from '../types/maybe.type'
 import { UserClientType } from '../types/user-client.type'
 
@@ -24,14 +25,26 @@ export class UserLoader {
       .save<TokenModel>(token)
   }
 
-  /**
-   * Gets user from DB by user's ID (email or phone)
-   */
-  public static async getUserByID(userID: string): Promise<MaybeType<UserModel>> {
+  public static async getUserAndToken(userID: string): Promise<MaybeType<UserWithTokenModel>> {
+    const sql: string = `
+      SELECT
+        u.${UserModel.userID} AS "userID",
+        u.${UserModel.userIDType} AS "userIDType",
+        u.${UserModel.password} AS "password",
+        t.${TokenModel.token} AS "token"
+      FROM
+        public.${UserModel.tableName} u
+      JOIN
+        public.${TokenModel.tableName} t
+      ON 
+        t.${TokenModel.id} = u.${UserModel.id}
+      WHERE
+        u.${UserModel.userID} = $1
+    `
+
     return DbHelper.getConnection()
-      .manager
-      .findOneBy<UserModel>(UserModel, { userID: userID })
-      .then<MaybeType<UserModel>>(DataHelper.cast)
+      .query(sql, new Array<any>(userID))
+      .then((users: ReadonlyArray<UserWithTokenModel>): MaybeType<UserWithTokenModel> => users[0])
   }
 
   /**
@@ -59,16 +72,6 @@ export class UserLoader {
   }
 
   /**
-   * Gets token from DB by ID
-   */
-  public static async getToken(id: string): Promise<MaybeType<TokenModel>> {
-    return DbHelper.getConnection()
-      .manager
-      .findOneBy<TokenModel>(TokenModel, { id: id })
-      .then<MaybeType<TokenModel>>(DataHelper.cast)
-  }
-
-  /**
    * Removes token from DB
    */
   public static async removeToken(token: string, all: boolean) {
@@ -78,6 +81,7 @@ export class UserLoader {
         DELETE FROM
           public.${TokenModel.tableName} t
       `
+
       return DbHelper.getConnection()
         .query(sql)
         .then((tokens): number => tokens[1])
@@ -89,6 +93,7 @@ export class UserLoader {
         WHERE
           t.${TokenModel.token} = $1
       `
+
       return DbHelper.getConnection()
         .query(sql, new Array<any>(token))
         .then((tokens): number => tokens[1])

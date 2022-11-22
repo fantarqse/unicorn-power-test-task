@@ -5,7 +5,7 @@ import { OrErrorType } from '../types/or-error.type'
 
 export class UserIDTypeHelper {
   /**
-   * Parse User's ID and return ID's type
+   * Parses User's ID and returns ID's type
    */
   public static check(id: string): OrErrorType<UserIDTypeEnum> {
     if (id.match(EMAIL_REGEXP)) {
