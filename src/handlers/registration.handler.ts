@@ -10,13 +10,12 @@ import { TokenModel } from '../models/entities/token.model'
 import { UserModel } from '../models/entities/user.model'
 import { ResponseModel } from '../models/response.model'
 import { OrErrorType } from '../types/or-error.type'
+import { AsyncVoidType } from '../types/async-void.type'
 
 export class RegistrationHandler {
-  public static async handle(req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
-    const uuid: string = DataHelper.createUUID()
-
+  public static async handle(req: Request, res: Response): AsyncVoidType {
     const user: OrErrorType<UserModel> = await UserLoader.saveUser(new UserModel({
-      id: uuid,
+      id: DataHelper.createUUID(),
       userID: req.body.id,
       userIDType: UserIDTypeHelper.check(req.body.id),
       password: await PasswordHelper.hash(req.body.password)
@@ -25,14 +24,16 @@ export class RegistrationHandler {
 
     if (user instanceof Error)  {
        if (user.message === DbErrorEnum.UniqueViolation) {
-         return res
+         res
            .status(HttpStatusEnum.BadRequest)
            .send(new ResponseModel({ description: `User's ID '${req.body.id}' is already in use` }))
+         return
        }
 
-       return res
+       res
          .status(HttpStatusEnum.BadRequest)
          .send(new ResponseModel({ description: user.message }))
+      return
     }
 
     const bearerToken = DataHelper.createUUID()
@@ -45,14 +46,16 @@ export class RegistrationHandler {
       .catch<Error>(DataHelper.cast)
 
     if (token instanceof Error) {
-      return res
+      res
         .status(HttpStatusEnum.BadRequest)
         .send(new ResponseModel({ description: token.message }))
+      return
     }
 
-    return res
+    res
       .status(HttpStatusEnum.Created)
       .setHeader(AUTHORIZATION, `Bearer ${bearerToken}`)
       .send(new ResponseModel({ description: `User successfully created` }))
+    return
   }
 }
