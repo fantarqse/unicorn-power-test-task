@@ -12,7 +12,7 @@ export class TokenModel {
    * DB's real fields names
    */
   public static readonly token: string = 'token'
-  public static readonly id: string = 'id'
+  public static readonly userID: string = 'user_id'
   public static readonly expirationTime: string = 'expiration_time'
 
   /**
@@ -29,8 +29,8 @@ export class TokenModel {
    * User's ID
    */
   @OneToOne(() => UserModel, (user) => user.id)
-  @JoinColumn({ name: TokenModel.id })
-  public readonly id: string
+  @JoinColumn({ name: TokenModel.userID })
+  public readonly userID: string
 
   /**
    * Expiration Time
@@ -45,7 +45,7 @@ export class TokenModel {
   public constructor(params: TokenModel) {
     if (params) {
       this.token = params.token
-      this.id = params.id
+      this.userID = params.userID
       this.expirationTime = params.expirationTime
     }
   }
