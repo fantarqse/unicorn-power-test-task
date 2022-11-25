@@ -12,6 +12,7 @@ export class LoginHandler {
   public static async handle(req: Request, res: Response): AsyncVoidType {
     const user: MaybeType<UserWithTokenModel> = await UserLoader.getUserAndToken(req.body.id)
 
+    //TODO: Add token verification
     if (!user) {
       res
         .status(HttpStatusEnum.NotFound)

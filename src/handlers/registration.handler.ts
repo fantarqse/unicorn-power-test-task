@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { AUTHORIZATION } from '../consts/authorization.const'
 import { DbErrorEnum } from '../enums/db-error.enum'
 import { HttpStatusEnum } from '../enums/http-status.enum'
 import { DataHelper } from '../helpers/data.helper'
@@ -63,7 +62,7 @@ export class RegistrationHandler {
 
     res
       .status(HttpStatusEnum.Created)
-      .setHeader(AUTHORIZATION, `Bearer ${bearerToken}`)
+      .set({ AUTHORIZATION: `Bearer ${bearerToken}` })
       .send(new ResponseModel({ description: `User successfully created` }))
     return
   }

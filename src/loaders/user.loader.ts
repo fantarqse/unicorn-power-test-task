@@ -73,6 +73,7 @@ export class UserLoader {
   /**
    * Removes token from DB
    */
+  //TODO: Change method
   public static async removeToken(token: string, all: boolean): Promise<number> {
     let sql: string
     if (all) {
