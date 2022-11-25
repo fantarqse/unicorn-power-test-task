@@ -4,6 +4,7 @@ import { UserModel } from '../models/entities/user.model'
 import { UserWithTokenModel } from '../models/user-with-token.model'
 import { MaybeType } from '../types/maybe.type'
 import { UserClientType } from '../types/user-client.type'
+import { NOTHING } from '../consts/nothing.const'
 
 export class UserLoader {
   /**
@@ -71,32 +72,22 @@ export class UserLoader {
   }
 
   /**
-   * Removes token from DB
+   * Removes a token from DB
    */
-  //TODO: Change method
-  public static async removeToken(token: string, all: boolean): Promise<number> {
-    let sql: string
-    if (all) {
-      sql = `
-        DELETE FROM
-          public.${TokenModel.tableName} t
-      `
-
-      return DbHelper.getConnection()
-        .query(sql)
-        .then((tokens): number => tokens[1])
-
-    } else {
-      sql = `
-        DELETE FROM
-          public.${TokenModel.tableName} t
+  public static async removeToken(token?: MaybeType<string>): Promise<number> {
+    let sql: string = `
+      DELETE FROM
+        public.${TokenModel.tableName} t
+    `
+    if (token) {
+      sql += `
         WHERE
           t.${TokenModel.token} = $1
       `
-
-      return DbHelper.getConnection()
-        .query(sql, new Array<any>(token))
-        .then((tokens): number => tokens[1])
     }
+
+    return DbHelper.getConnection()
+      .query(sql, token ? new Array<any>(token) : NOTHING)
+      .then((tokens): number => tokens[1])
   }
 }

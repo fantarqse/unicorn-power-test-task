@@ -10,7 +10,7 @@ import { RequestDataHelper } from '../helpers/request-data.helper'
 
 export class InfoHandler {
   public static async handle(req: Request, res: Response): AsyncVoidType {
-    const token: OrErrorType<string> = RequestDataHelper.tokenVerification(req.headers.authorization)
+    const token: OrErrorType<string> = RequestDataHelper.checkToken(req.headers.authorization)
 
     if (token instanceof Error) {
       res
